@@ -110,6 +110,7 @@ contains
         deallocate(nu_grid%lambda_bin)
         deallocate(nu_grid%vel_bin)
         deallocate(nu_grid%bin)
+	
         deallocate(mothergrid%x_div)
         deallocate(mothergrid%y_div)
         deallocate(mothergrid%z_div)

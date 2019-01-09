@@ -1,37 +1,37 @@
                                           active rest wavelength:       500.70
 
  dust geometry:
-                                          maximum velocity (km/s)      2000.00
+                                          maximum velocity (km/s)      5624.62
                                               dust velocity index         1.00
-                                               dust density index         0.00
-                                                Rmax dust (e15cm)      6307.20
-                                                Rmin dust (e15cm)         0.00
-                                         dust R ratio (Rmax/Rmin)         0.00
+                                               dust density index         1.65
+                                                Rmax dust (e15cm)     17737.79
+                                                Rmin dust (e15cm)      5321.34
+                                         dust R ratio (Rmax/Rmin)         0.30
 
  gas geometry:
-                                          maximum velocity (km/s)      2000.00
+                                          maximum velocity (km/s)      5624.62
                                                gas velocity index         1.00
-                                                gas density index         1.20
-                                                 Rmax gas (e15cm)      6307.20
-                                                 Rmin gas (e15cm)         0.00
-                                                      gas r ratio         0.05
-                                  minimum velocity at Rmin (km/s)         0.00
+                                                gas density index         1.65
+                                                 Rmax gas (e15cm)     17737.79
+                                                 Rmin gas (e15cm)      5321.34
+                                                      gas r ratio         0.30
+                                  minimum velocity at Rmin (km/s)      1687.38
 
  properties of the dust:
                                           Cext at line wavelength     0.69E-12
-                                          Csca at line wavelength     0.12E-14
+                                          Csca at line wavelength     0.25E-14
                                         albedo at line wavelength         0.00
                 forward scattering parameter g at line wavelength         0.00
                          average optical depth at line wavelength         0.00
                           average optical depth at V band (547nm)         0.00
 
  properties of the grid:
-              volume of grid cell (and therefore clump) (e42cm^3)     0.00E+00
-                                        grid cell width (x) in cm     0.00E+00
-                                        grid cell width (y) in cm     0.00E+00
-                                        grid cell width (z) in cm     0.00E+00
-                   total analytical volume of supernova (e42cm^3)     0.00E+00
-                     volume of total grid cells inside sn (e42cm)     0.00E+00
+              volume of grid cell (and therefore clump) (e42cm^3)     0.70E+12
+                                        grid cell width (x) in cm     0.89E+18
+                                        grid cell width (y) in cm     0.89E+18
+                                        grid cell width (z) in cm     0.89E+18
+                   total analytical volume of supernova (e42cm^3)     0.23E+17
+                     volume of total grid cells inside sn (e42cm)     0.23E+17
                                       average dust number density     0.00E+00
                average optical depth of a cell at line wavelength         0.00
                 average optical depth of a cell at V band (547nm)         0.00
@@ -43,10 +43,10 @@
                                                       requested -     0.00E+00
 
  packet resolution:
-                              total number of packets initialised       102144
-                            number of active (propagated) packets       102144
+                              total number of packets initialised       100000
+                            number of active (propagated) packets       100000
                                        number of inactive packets            0
-                       number of escaped packets in line of sight       102144
+                       number of escaped packets in line of sight        99999
                             % of escaped packets in line of sight       100.00
                                        number of absorbed packets            0
                                             % of absorbed packets         0.00

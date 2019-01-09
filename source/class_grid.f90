@@ -71,7 +71,6 @@ contains
 
             case("shell")
 
-
                 !calculate r_max and r_min (dust) based on maximum velocity, day no (d=v*t) and r_min/r_max ratio if r and v coupled
                if (dust_geometry%r_max == 0.0) dust_geometry%r_max=dust_geometry%v_max*day_no*8.64e-6
                dust_geometry%r_min=dust_geometry%r_ratio*dust_geometry%r_max
@@ -87,8 +86,7 @@ contains
                     print*, "please specify an r_min/r_max ratio that is less than 1.  aborted."
                     stop
                 end if
-		print*,"orig rmax",dust_geometry%r_max
-	
+
                 !convert supernova bounds from e15cm to cm
                 dust_geometry%r_min_cm=dust_geometry%r_min*1e15
                 dust_geometry%r_max_cm=dust_geometry%r_max*1e15
@@ -102,8 +100,7 @@ contains
                 mothergrid%x_max=-mothergrid%x_min
                 mothergrid%y_max=mothergrid%x_max
                 mothergrid%z_max=mothergrid%x_max
-		print*,"lims", mothergrid%x_min, mothergrid%x_max
-	
+
                 !set number of cells in each direction and calculate total number of cells
                 !mothergrid%n_cells(1) read in from input file in input.f90
                 !!edit here if different number of cells in each direction required
