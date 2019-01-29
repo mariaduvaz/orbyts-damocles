@@ -5,7 +5,10 @@ Created on Tue Jan  2 16:45:22 2018
 
 @author: maria
 """
-####saving small functions i always use in all my codes
+
+###SMALL MISCELLANEOUS FUNCTIONS USED IN ALL MY CODES###
+
+
 import numpy as np
 
 import sys
@@ -22,7 +25,7 @@ import sys
 
 
 def appendline(read,start,stop):
-    #each line of grid is read in as 1 string, this splits them into equal parts
+    
     x = []    
     for line in read[start:stop]:    
         line = line.split()
@@ -30,7 +33,7 @@ def appendline(read,start,stop):
     return x
  
 def checkspacing(array):
-    #returns True if spacing is equal between every point, used for grids
+    #returns True if spacing is equal between every point, used to test meshgrids have been made properly
     y = []
     for first, second in zip(array, array[1:]):
         x = abs(second - first)
@@ -42,18 +45,7 @@ def checkspacing(array):
         print("GRID SPACED EVENLY")   
     else:
         print("ITS NOT EQUAL TRY AGAIN")
-        print(np.amin(y))
-        #return(y)
         
-
-
-def makeitfloat(array):    
-    x = [float(j) for j in array]
-    return x 
-
-def inting(array):
-    c = [int(j) for j in array]
-    return c
 
 def find_nearest(array, values):
     #tell the function a value, finds closest number to it in an array 
@@ -63,11 +55,10 @@ def find_nearest(array, values):
 
 
 def convert_wav_to_vel(wavarray,obspeak,labpeak):
+	#used for spectra to convert
     final_vel = []
     
   
-
-
     zpeak = (obspeak - labpeak)/obspeak
     radvel = AC.c * zpeak
   
@@ -95,26 +86,16 @@ def datafile_2_array(filename,isint=True,zipped=True):
     
     obsdata = appendline(reading,0,len(reading))
     
-    #x = re.search('[a-df-zA-DF-Z-#]', reading[0]) #checking whether theres a header
-    
-   
-    #if x == None:
-     #       obsdata = appendline(reading,0,len(reading))
-    #else:
-     #       obsdata = appendline(reading,1,len(reading))
-      
-    
     
     if zipped == False:
         return obsdata
-    #row_size = list(set([len(i) for i in obsdata])) 
+    
     
         
-    no_rows = (len(obsdata[1]))
+    no_rows = (len(obsdata[1])) #just incase theres a header in first line
 
   
-    ###IF ROW NUMBERS NOT ALL SAME LENGTH THEN RETURN ERROR....
-        
+    ###ROWS NEED TO BE ALL SAME LENGTH FOR THIS TO WORK
     lists = [[] for _ in range(no_rows)]
 
     lists = list(zip(*obsdata))
@@ -129,23 +110,7 @@ def datafile_2_array(filename,isint=True,zipped=True):
                     lists[i] = [int(float(j)) for j in lists[i]]
                     
     return lists                
-'''     
-        if len(lists) > 5:
-            arr_nos = input("enter array no. of rows you want to extract, or n if all ")
-            
-            if arr_nos == 'n':
-                return lists
-                break
-            
-            else:
-                arr_nos = [int(float(j)) for j in arr_nos.split()]  #turning raw input of row number as string
-            
-                return(lists[arr_nos[0]],lists[arr_nos[1]])     
-                break
-        
-        else:
-            return lists
-'''
+
                 
 
 
@@ -153,7 +118,7 @@ def datafile_2_array(filename,isint=True,zipped=True):
 
 
 def save_output_png(directory):
-    
+    #used in loops running models many times to save output plot as a .png file
   
     x = os.listdir(directory)
     if x == []:
@@ -184,15 +149,10 @@ def savedata_2file(filename,array,fmtarguments):
         np.savetxt(filename,array,fmt=fmtarguments)
         
         
-def find_ind(dictionary,key,value):                    
-    for index, dic in enumerate(dictionary):      
-        if dic[key] == value:
-            return index
-    return None
-
 
 
 def sigma_clip(array,degree):
+	#used to remove cosmic rays etc from spectra
     stdev = np.std(array)
     median = np.median(array)
     print(median - (degree * stdev))
@@ -200,11 +160,11 @@ def sigma_clip(array,degree):
     for k in range(len(array)):   
         if array[k] > (median + (degree * stdev)) or array[k] < (median - (degree * stdev)): 
               array[k] = 0
-    #get new stdev
+    
     return array
 
 def get_WCS(file,degrees=True):
-    
+    #used for fits file to extract the coordinates
     hdulist = fits.open(file)         #("r3casa_p001.0014.sensdiv.fits")
     hdr = hdulist[0].header
     if degrees == True:
