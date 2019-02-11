@@ -12,9 +12,8 @@ Created on Tue Jan  2 16:45:22 2018
 import numpy as np
 
 import sys
-sys.path.append('/home/maria/PYTHONCODES/mazzyfuncts/modules')
+#sys.path.append('/home/maria/PYTHONCODES/mazzyfuncts/modules')
 
-from ASTROCONSTANTS import *
 
 import re
 import os
@@ -58,19 +57,57 @@ def convert_wav_to_vel(wavarray,obspeak,labpeak):
 	#used for spectra to convert
     final_vel = []
     
-  
-    zpeak = (obspeak - labpeak)/obspeak
-    radvel = AC.c * zpeak
+    
+    zpeak = (float(obspeak) - float(labpeak))/float(obspeak)
+    print(zpeak)
+    radvel = 299792 * zpeak
   
 
     for i in range(0,len(wavarray)):
         
         z = ((wavarray[i] - labpeak)/wavarray[i])
-        j = (AC.c * z) - radvel
+        j = (299792 * z) - radvel
         final_vel.append(j)
     return(final_vel)
-    
-    
+  
+
+
+  
+def snip_spect(x_axis,flux_axis,*args):
+	#args are values you want to snip between, from left to right
+	#you're creating a straight line of x = y betweeen the two points 
+	#eg. to interpolate between narrow line regions, to snip cosmic rays etc
+	#only works on a list
+        
+        
+
+                
+        for first, second in zip(args, args[1:]):
+               
+           if (args.index(first)) % 2 == 0:
+                             
+               x1 = find_nearest(x_axis,first)
+               		
+               x2 = find_nearest(x_axis,second) 
+         		
+               ind1 = x_axis.index(x1)
+               
+               ind2 = x_axis.index(x2)
+               	
+               
+               y1 = flux_axis[ind1]
+               y2 = flux_axis[ind2]
+             
+               arraysize = ind2 - ind1
+             
+               y_replacementpoints = np.linspace(y1,y2,arraysize)
+               flux_axis[ind1:ind2] = y_replacementpoints
+               
+        return flux_axis  
+
+
+
+
     
 def datafile_2_array(filename,isint=True,zipped=True):
     '''

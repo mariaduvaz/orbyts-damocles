@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import sys
 import fileinput
 
-import FUNCTIONS as fn   ##THIS IS FROM PACKAGE ON MY COMP, MAKE FUNCTIONS AVAILABLE...
+import FUNCTIONS as fn 
 from mpl_toolkits import mplot3d
 
 import numpy as np
@@ -20,8 +20,18 @@ print(path)
 #get directory root
 
 
-is_obsfile = False
-obs_file = path +"/d2875Ha.dat"
+is_obsfile = True
+obs_file = path +"/iPTF14hls_2018-01-14_10-21-17_Keck1_LRIS_None.txt"
+obswav,obsflux,_,_,_,_,_= fn.datafile_2_array(obs_file,isint=False,zipped=True)
+
+
+obsvels = fn.convert_wav_to_vel(obswav,6790,6563)
+#plt.plot(obsvels[2050:2300],obsflux[2050:2300])
+
+plt.show()
+
+
+
 
 #vels = fn.convert_wav_to_vel(obswav,656.3,656.3) 
 
@@ -48,13 +58,7 @@ wavelength_peak_2= 0
 
 ### age and dust parameters, these are also fed into model 
 #dust is coupled to gas
-age=8        #in years
-
-
-
-
-age_d = age*365
-age_s = 3.154e7
+age_d = 1210
 
 ##no of grid cells in x,y,z direction
 grid_divs = 20
@@ -83,7 +87,8 @@ def replace_str(value,place,linetally):
         return string
 
 #Replace values in files in input.in fortran file with values defined in this script
-'''
+
+
 fi = fileinput.FileInput(files=(input_file,dust_file,gas_file,spec_file),inplace=True)
 for line in fi:
    if 'day' in line:
@@ -103,7 +108,7 @@ for line in fi:
    print line,   
 
 fi.close()
-'''
+
 
 
 
@@ -159,7 +164,7 @@ def make_Grid(v_max,Rrat,rho_index):
 fig3 = plt.figure(3, figsize=(5,5))
 ax_dm = plt.axes([0.25, 0.0, 0.65, 0.03])
 ax_gs = plt.axes([0.25, 0.1, 0.65, 0.03])
-s_dm = Slider(ax_dm, 'dustmass', 0.0, 0.005,valinit=mdust_init)
+s_dm = Slider(ax_dm, 'dustmass', 0.0, 0.0005,valfmt='%9.7f',valinit=mdust_init)
 s_gs = Slider(ax_gs, 'grain size', 0.005, 0.5,valinit=grain_size_init)
 #plt.subplots_adjust(left=0.25, bottom=0.25)
 
@@ -276,14 +281,14 @@ def update(val):
   button.on_clicked(reset)
 
   if is_obsfile == True:
-	obswav,obsflux= fn.datafile_2_array(obs_file,isint=False,zipped=True)
-	scale = np.amax(obsflux)/np.amax(flux)
-	flux = [(i*scale) for i in flux]
-	plt.xlabel("Velocity km/s")
-	plt.ylabel("Brightness")	
-	plt.plot(obswav,obsflux)
 	
-
+	plt.xlabel("Velocity km/s")
+	plt.ylabel("Brightness")
+        obsfl = fn.snip_spect(obsvels[2050:2300],obsflux[2050:2300],-670,920)
+        scale = np.amax(obsfl)/np.amax(flux)
+	flux = [(i*scale*1.1) for i in flux]	
+	plt.plot(obsvels[2050:2300],obsfl)
+       
   plt.plot(vel,flux)
 	
   fig2.canvas.draw()
@@ -302,4 +307,4 @@ s_gs.on_changed(update)
 
 
 plt.show()
-
+#'''
