@@ -59,11 +59,9 @@ wavelength_peak_2= 0
 ### age and dust parameters, these are also fed into model 
 #dust is coupled to gas
 age_d = 1210
-
 ##no of grid cells in x,y,z direction
 grid_divs = 20
-
-
+photno = 70000
 
 
 ###HERE WE'RE PUTTING IN THE PARAMETERS WE SET ABOVE INTO THE CODE, FEEDING THEM INTO THE INPUT FILES
@@ -93,6 +91,8 @@ fi = fileinput.FileInput(files=(input_file,dust_file,gas_file,spec_file),inplace
 for line in fi:
    if 'day' in line:
        line=replace_str(age_d,0,line)
+   if  'number of photons' in line:
+       line=replace_str(photno,0,line)
    if 'doublet?' in line:
        line=replace_str(doublet,0,line)
    if 'Msun' in line:
@@ -286,7 +286,7 @@ def update(val):
 	plt.ylabel("Brightness")
         obsfl = fn.snip_spect(obsvels[2050:2300],obsflux[2050:2300],-670,920)
         scale = np.amax(obsfl)/np.amax(flux)
-	flux = [(i*scale*1.1) for i in flux]	
+	flux = [(i*scale) for i in flux]	
 	plt.plot(obsvels[2050:2300],obsfl)
        
   plt.plot(vel,flux)
