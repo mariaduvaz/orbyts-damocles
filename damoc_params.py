@@ -15,31 +15,26 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider,Button
 
+
+#get directory root
 path = os.path.dirname(os.path.realpath(__file__))
 print(path)
-#get directory root
+
 
 
 is_obsfile = True
-obs_file = path +"/iPTF14hls_2018-01-14_10-21-17_Keck1_LRIS_None.txt"
-obswav,obsflux,_,_,_,_,_= fn.datafile_2_array(obs_file,isint=False,zipped=True)
-
-
-obsvels = fn.convert_wav_to_vel(obswav,6790,6563)
-#plt.plot(obsvels[2050:2300],obsflux[2050:2300])
-
-plt.show()
 
 
 
 
-#vels = fn.convert_wav_to_vel(obswav,656.3,656.3) 
+
 
 ##########################################                            #############################################
 ##########################################  PARAMETERS WE'RE VARYING  #############################################
 ##########################################                            #############################################
 
 #INITIAL PARAMETERS THAT MAKE OUR GRID OF GAS
+
 v_max_init=7000.0 #maximum velocity at edge of shell
 Rrat_init = 0.3 #radius of inner shell boundary divided by ratio of outer shell. Determines how 'thick' your gas shell is
 rho_index_init=2   #density is proportional to radius^(-rho_index)
@@ -49,7 +44,7 @@ grain_size_init=0.01    #size of dust grain in microns
 
 
 #put in the wavelength of the spectral line transition you want to create a model of in NANOMETRES
-#set this to true if you're modelling a doublet (two close together lines that have blended into each other like OIII 4959,5007)
+#set this to true if you're modelling a doublet (two close together lines that have blended into each other like O2+ 4959,5007)
 doublet= "false"
 wavelength_peak_1= 656.3
 #set this to 0 if you don't have a doublet
@@ -57,9 +52,11 @@ wavelength_peak_2= 0
 
 
 ### age and dust parameters, these are also fed into model 
-#dust is coupled to gas
-age_d = 1210
-##no of grid cells in x,y,z direction
+#age of supernova remnant at the time that observational data was taken, in days.
+#this is important because the older the supernova is, the larger its radius would be as its had more time to expand. A larger supernova means you need more dust to get the same amount of light being absorbed
+
+age_d = 1000                                    #INSERT AGE HERE
+##no of grid cells in x,y,z direction. higher grid number means higher
 grid_divs = 20
 photno = 70000
 
@@ -116,6 +113,7 @@ fi.close()
 
 #creating a gridfile of the supernova here
 #where we have 4 1d arrays; a list of x,y,z and density points
+#this allows us to plot what the model looks like 
 
 
 def make_Grid(v_max,Rrat,rho_index):
@@ -160,13 +158,8 @@ def make_Grid(v_max,Rrat,rho_index):
 
 #clear the subplots here
 
-#if fig doesnt exist , then plot this, otherwise clear the existing subplot
-fig3 = plt.figure(3, figsize=(5,5))
-ax_dm = plt.axes([0.25, 0.0, 0.65, 0.03])
-ax_gs = plt.axes([0.25, 0.1, 0.65, 0.03])
-s_dm = Slider(ax_dm, 'dustmass', 0.0, 0.0005,valfmt='%9.7f',valinit=mdust_init)
-s_gs = Slider(ax_gs, 'grain size', 0.005, 0.5,valinit=grain_size_init)
-#plt.subplots_adjust(left=0.25, bottom=0.25)
+
+
 
 
 fig2 = plt.figure(2,figsize=(10,10))
@@ -214,14 +207,17 @@ cbar.set_label('density', rotation=270)
 
 
 
-ax_vmax = plt.axes([0.25, 0.1, 0.65, 0.03])
-ax_r = plt.axes([0.25, 0.15, 0.65, 0.03])
-ax_rho = plt.axes([0.25, 0.2, 0.65, 0.03])
+ax_vmax = plt.axes([0.25, 0.0, 0.65, 0.02])
+ax_r = plt.axes([0.25, 0.05, 0.65, 0.02])
+ax_rho = plt.axes([0.25, 0.1, 0.65, 0.02])
+ax_dm = plt.axes([0.25, 0.15, 0.65, 0.02])
+ax_gs = plt.axes([0.25, 0.2, 0.65, 0.02])
 
 s_vmax = Slider(ax_vmax, 'vmax', 1000, 10000,valinit=v_max_init)
 s_r = Slider(ax_r, 'Rin/Rout', 0.001, 1,valinit=Rrat_init)
 s_rho = Slider(ax_rho, 'rho index', 0.001, 3,valinit=rho_index_init)
-
+s_dm = Slider(ax_dm, 'dustmass', 0.0, 0.0005,valfmt='%9.7f',valinit=mdust_init)
+s_gs = Slider(ax_gs, 'grain size', 0.005, 0.5,valinit=grain_size_init)
 
 
 
@@ -271,7 +267,7 @@ def update(val):
 
   outfile = path + "/output/integrated_line_profile.out"
   wav,vel,flux = fn.datafile_2_array(outfile,isint=False,zipped=True)
-  plt.figure(2)
+  
   
   
   
@@ -280,16 +276,31 @@ def update(val):
     plt.cla()
   button.on_clicked(reset)
 
-  if is_obsfile == True:
-	
-	plt.xlabel("Velocity km/s")
-	plt.ylabel("Brightness")
-        obsfl = fn.snip_spect(obsvels[2050:2300],obsflux[2050:2300],-670,920)
-        scale = np.amax(obsfl)/np.amax(flux)
-	flux = [(i*scale) for i in flux]	
-	plt.plot(obsvels[2050:2300],obsfl)
-       
+  obs_file = path +"/2012aw-2015-cc"
+  obswav,obsflux= fn.datafile_2_array(obs_file,isint=False,zipped=True)
+
+
+  obsvels = fn.convert_wav_to_vel(obswav,6582,6563)
+
+
+
+  obsvels,obsflux = fn.trim_wav_flux(obsvels,obsflux,-12000,12000)
+  obsflux = fn.snip_spect(obsvels,obsflux,-188,362,601,1286)
+
+  
+  scale = np.amax(flux)/np.nanmax(obsflux)
+  obsflux = [(i*scale) for i in obsflux]	
+  print(np.amax(flux),np.nanmax(obsflux))
+  plt.figure(2)
   plt.plot(vel,flux)
+  plt.plot(obsvels,obsflux)
+      
+ 
+	
+  plt.xlabel("Velocity km/s")
+  plt.ylabel("Brightness")
+         
+  
 	
   fig2.canvas.draw()
 

@@ -3,35 +3,35 @@
  dust geometry:
                                           maximum velocity (km/s)      7000.00
                                               dust velocity index         1.00
-                                               dust density index         2.15
-                                                Rmax dust (e15cm)        73.18
-                                                Rmin dust (e15cm)        21.95
+                                               dust density index         2.00
+                                                Rmax dust (e15cm)        60.48
+                                                Rmin dust (e15cm)        18.14
                                          dust R ratio (Rmax/Rmin)         0.30
 
  gas geometry:
                                           maximum velocity (km/s)      7000.00
                                                gas velocity index         1.00
-                                                gas density index         2.15
-                                                 Rmax gas (e15cm)        73.18
-                                                 Rmin gas (e15cm)        21.95
+                                                gas density index         2.00
+                                                 Rmax gas (e15cm)        60.48
+                                                 Rmin gas (e15cm)        18.14
                                                       gas r ratio         0.30
                                   minimum velocity at Rmin (km/s)      2100.00
 
  properties of the dust:
-                                          Cext at line wavelength     0.40E-12
-                                          Csca at line wavelength     0.43E-15
-                                        albedo at line wavelength         0.00
-                forward scattering parameter g at line wavelength         0.00
+                                          Cext at line wavelength     0.88E-08
+                                          Csca at line wavelength     0.45E-08
+                                        albedo at line wavelength         0.51
+                forward scattering parameter g at line wavelength         0.70
                          average optical depth at line wavelength         0.00
                           average optical depth at V band (547nm)         0.00
 
  properties of the grid:
-              volume of grid cell (and therefore clump) (e42cm^3)     0.49E+05
-                                        grid cell width (x) in cm     0.37E+16
-                                        grid cell width (y) in cm     0.37E+16
-                                        grid cell width (z) in cm     0.37E+16
-                   total analytical volume of supernova (e42cm^3)     0.16E+10
-                     volume of total grid cells inside sn (e42cm)     0.16E+10
+              volume of grid cell (and therefore clump) (e42cm^3)     0.28E+05
+                                        grid cell width (x) in cm     0.30E+16
+                                        grid cell width (y) in cm     0.30E+16
+                                        grid cell width (z) in cm     0.30E+16
+                   total analytical volume of supernova (e42cm^3)     0.90E+09
+                     volume of total grid cells inside sn (e42cm)     0.90E+09
                                       average dust number density     0.00E+00
                average optical depth of a cell at line wavelength         0.00
                 average optical depth of a cell at V band (547nm)         0.00

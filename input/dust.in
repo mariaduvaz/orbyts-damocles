@@ -9,5 +9,5 @@
 0.		!  Rout in 1e15cm. Set to 0 to couple to maximum velocity (r=vt).
 0.3 ! Rin/Rout ratio
 1.0             !  value of l where velocity profile is v~r^l
-2.14797641025641 ! value of where density profile is rho~r^-q
+2 ! value of where density profile is rho~r^-q
 2.0             !  value of b where emissivity~r^-qb (applicable only if dust and gas coupled)

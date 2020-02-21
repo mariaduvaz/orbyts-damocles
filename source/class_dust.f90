@@ -169,8 +169,10 @@ contains
 
         !read in optical data (n and k values) for each species
         do ii=1,dust%n_species
-            open(13,file=PREFIX//"/share/damocles/"//trim(dust%species(ii)%datafile))
-            read(13,*) dust%species(ii)%n_wav
+	    
+            open(13,file="/home/maria/orbyts-damocles-master/"//trim(dust%species(ii)%datafile))
+            
+	    read(13,*) dust%species(ii)%n_wav
             read(13,*)
             read(13,*) junk,t_subl,dust%species(ii)%rho_grain
 

@@ -212,5 +212,55 @@ def get_WCS(file,degrees=True):
         DEC = hdr['DEC']
         
     return RA,DEC
+
+def trim_wav_flux(lambd_points,flux_points,point1,point2):
+        #given two points on the x axis of a 1d spectra, 
+        #we trim both the x and y axis to be only between these two points
+        x = []
+        lambd_points = list(lambd_points)
+        
+        x1 = find_nearest(lambd_points,point1)
+        x2 = find_nearest(lambd_points,point2) 
+                      
+        ind1 = lambd_points.index(x1)
+        ind2 = lambd_points.index(x2)
+        
+        new_lam = lambd_points[ind1:ind2]
+        new_fl = flux_points[ind1:ind2]
+        
+        return new_lam, new_fl 
+
+
+def snip_spect(x_axis,flux_axis,*args):
+	#args are values you want to snip between, from left to right
+	#you're creating a straight line of x = y betweeen the two points 
+	#eg. to interpolate between narrow line regions, to snip cosmic rays etc
+	#only works on a list
+        
+        
+
+                
+        for first, second in zip(args, args[1:]):
+               
+           if (args.index(first)) % 2 == 0:
+                             
+               x1 = find_nearest(x_axis,first)
+               		
+               x2 = find_nearest(x_axis,second) 
+         		
+               ind1 = x_axis.index(x1)
+               
+               ind2 = x_axis.index(x2)
+               	
+               
+               y1 = flux_axis[ind1]
+               y2 = flux_axis[ind2]
+             
+               arraysize = ind2 - ind1
+             
+               y_replacementpoints = np.linspace(y1,y2,arraysize)
+               flux_axis[ind1:ind2] = y_replacementpoints
+               
+        return flux_axis
     
 #'''    
