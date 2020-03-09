@@ -55,7 +55,7 @@ wavelength_peak_2= 0
 #age of supernova remnant at the time that observational data was taken, in days.
 #this is important because the older the supernova is, the larger its radius would be as its had more time to expand. A larger supernova means you need more dust to get the same amount of light being absorbed
 
-age_d = 1000                                    #INSERT AGE HERE
+age_d = 1000                                    #INSERT AGE HERE!!!
 ##no of grid cells in x,y,z direction. higher grid number means higher
 grid_divs = 20
 photno = 70000
@@ -276,7 +276,7 @@ def update(val):
     plt.cla()
   button.on_clicked(reset)
 
-  obs_file = path +"/2012aw-2015-cc"
+  obs_file = path +"/2012aw-2017-cc"
   obswav,obsflux= fn.datafile_2_array(obs_file,isint=False,zipped=True)
 
 
